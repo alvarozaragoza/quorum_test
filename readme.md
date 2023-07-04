@@ -12,3 +12,5 @@ Everytime the app runs a log file will be created in the log subfolder.
 This application was written and tested in Python 3.8.5 and uses the Pandas Library.
 
 To install Pandas Library run on your terminal 'pip install pandas' or check documentation at https://pandas.pydata.org/docs/getting_started/install.html
+
+To run the application just type python3 csv_processor.py on your terminal.
