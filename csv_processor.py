@@ -72,14 +72,36 @@ def main():
         logger.info(f'File inbox{folder_sep}vote_results.csv not found. App cannot continue.')
         exit()
 
-    print(df_legislators)
-    print(df_bills)
-    print(df_votes)
-    print(df_vote_results)
+    logger.info("Legislators, bills, votes, and vote_results imported into Dataframes.")
 
-# Analyze DataFrames
-# Calculate
-# Create Result CSV file
+    # Analyze DataFrames - TO BE DONE
+    # Imported data should be analyzed and cleaned
+
+    # Calculate votes and create new Dataframes for results
+    logger.info("Calculating votes and grouping by legislators...")
+
+    # Create Dataframes counting votes grouping by legislator_id and vote_type
+    df_support = df_vote_results[df_vote_results['vote_type'] == 1]
+    df_oppose = df_vote_results[df_vote_results['vote_type'] == 2]
+    df_legislator_support = df_support.groupby(['legislator_id']).size().reset_index(name='num_supported_bills')
+    df_legislator_oppose = df_oppose.groupby(['legislator_id']).size().reset_index(name='num_opposed_bills')
+    
+    # Rename columns and merge Dataframes
+    df_legislator_support = df_legislator_support.rename(columns={'legislator_id': 'id'})
+    df_legislator_oppose = df_legislator_oppose.rename(columns={'legislator_id': 'id'})
+    df_legislators_support_oppose_count = pandas.merge( df_legislators, df_legislator_support, how="left",  on="id")
+    df_legislators_support_oppose_count = pandas.merge( df_legislators_support_oppose_count, df_legislator_oppose, how="left", on="id")
+
+    # Replace NaN with Zeros
+    df_legislators_support_oppose_count.fillna(0,inplace=True)
+    
+    # Set counting columns as integer
+    df_legislators_support_oppose_count['num_supported_bills'] = df_legislators_support_oppose_count['num_supported_bills'].astype('int')
+    df_legislators_support_oppose_count['num_opposed_bills'] = df_legislators_support_oppose_count['num_opposed_bills'].astype('int')
+
+    print(df_legislators_support_oppose_count)
+    
+    # Create Result CSV file
 
 if __name__ == "__main__":
     main()
