@@ -9,6 +9,7 @@ import logging
 import sys
 import platform
 from datetime import datetime
+import pandas
 
 # Create a looger function
 def my_custom_logger(logger_name, level=logging.DEBUG):
@@ -44,8 +45,39 @@ def main():
     logger.info("Starting Quorum CSV Processor (version: 1.01)")
     logger.info("---------------------------------------------")
 
-# Read CSV files into Pandas DataFrames
-# Analyze DataFramescd .
+    # Read CSV files into Pandas DataFrames
+    logger.info("Reading CSV files...")
+
+    try:
+        df_legislators = pandas.read_csv(f'inbox{folder_sep}legislators.csv')
+    except:
+        logger.info(f'File inbox{folder_sep}legislators.csv not found. App cannot continue.')
+        exit()
+
+    try:
+        df_bills = pandas.read_csv(f'inbox{folder_sep}bills.csv')
+    except:
+        logger.info(f'File inbox{folder_sep}bills.csv not found. App cannot continue.')
+        exit()
+
+    try:
+        df_votes = pandas.read_csv(f'inbox{folder_sep}votes.csv')
+    except:
+        logger.info(f'File inbox{folder_sep}votes.csv not found. App cannot continue.')
+        exit()
+
+    try:
+        df_vote_results = pandas.read_csv(f'inbox{folder_sep}vote_results.csv')
+    except:
+        logger.info(f'File inbox{folder_sep}vote_results.csv not found. App cannot continue.')
+        exit()
+
+    print(df_legislators)
+    print(df_bills)
+    print(df_votes)
+    print(df_vote_results)
+
+# Analyze DataFrames
 # Calculate
 # Create Result CSV file
 
