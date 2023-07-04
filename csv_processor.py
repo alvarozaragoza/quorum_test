@@ -12,7 +12,7 @@ import os
 from datetime import datetime
 import pandas
 
-# Create a looger function
+# Looger method
 def my_custom_logger(logger_name, level=logging.DEBUG):
     """
     Method to return a custom logger with the given name and level
@@ -31,7 +31,7 @@ def my_custom_logger(logger_name, level=logging.DEBUG):
     logger.addHandler(file_handler)
     return logger
 
-# Create main function
+# App main method
 def main():
     # Folder separator accordind to OS
     folder_sep = "\\" if platform.system() == "Windows" else "/"
